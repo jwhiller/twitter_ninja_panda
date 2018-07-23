@@ -1,6 +1,10 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
 
+  before_action :authenticate_user!
+
+  include TweetsHelper
+
   # GET /tweets
   # GET /tweets.json
   def index
@@ -28,7 +32,31 @@ class TweetsController < ApplicationController
 
     respond_to do |format|
       if @tweet.save
-        format.html { redirect_to @tweet, notice: 'Tweet was successfully created.' }
+
+        @tweet = get_tagged(@tweet)
+        @tweet.save
+
+        message_arr = @tweet.message.split
+
+        message_arr = @tweet.message.split
+
+        message_arr.each_with_index do |word, index|
+          if word[0] == "#"
+            if Tag.pluck(:phrase).include?(word)
+              #save that Tag as a variable (to use in TweetTag creation)
+              tag = Tag.find_by(phrase: word)
+            else
+            #creates a new instance of a Tag
+              tag = Tag.create(phrase: word)
+            end
+            tweet_tag = TweetTag.create(tweet_id: @tweet.id, tag_id: tag.id)
+            message_arr[index] = "<a href='/tag_tweets?id=#{tag.id}'>#{word}</a>"
+          end
+        end
+
+        @tweet.update(message: message_arr.join(" "))
+
+        format.html { redirect_to root_url, notice: 'Tweet was successfully created.' }
         format.json { render :show, status: :created, location: @tweet }
       else
         format.html { render :new }
@@ -36,21 +64,6 @@ class TweetsController < ApplicationController
       end
     end
   end
-
-  # PATCH/PUT /tweets/1
-  # PATCH/PUT /tweets/1.json
-  def update
-    respond_to do |format|
-      if @tweet.update(tweet_params)
-        format.html { redirect_to @tweet, notice: 'Tweet was successfully updated.' }
-        format.json { render :show, status: :ok, location: @tweet }
-      else
-        format.html { render :edit }
-        format.json { render json: @tweet.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   # DELETE /tweets/1
   # DELETE /tweets/1.json
   def destroy

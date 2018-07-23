@@ -4,7 +4,7 @@
   <p>
     <%= image_tag @tweet.user.avatar.url, size: 25 %>
     <%= @tweet.user.name %>
-    <%= @tweet.user.username %>
+    <%= link_to "@#{@tweet.user.username}", show_user_path(id: @tweet.user.id) %>
     🕐 <%= time_ago_in_words(@tweet.created_at) %>
   </p>
   <p><%= @tweet.message.html_safe %> </p>
