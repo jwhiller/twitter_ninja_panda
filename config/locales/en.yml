@@ -49,3 +49,11 @@ en:
                   username:
                     blank: "is missing. You need to pick one fool"
                     taken: "Too bad so sad...someone already got this name!"
+datetime:
+  distance_in_words:
+    x_minutes:
+      one: "1m"
+      other: "%{count}m"
+    about_x_hours:
+      one: "1h"
+      other: "%{count}m"

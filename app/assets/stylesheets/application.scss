@@ -14,6 +14,38 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+body{
+padding-top: 60px;
+  background: rgb(85, 85, 85);
+  color: rgb(65, 65, 65);
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  color: black;
+  background-color: black;
+  opacity: 0.7;
+}
+.home {
+    background-color: rgb(224, 255, 37);
+}
+.well {
+  color: black;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: white;
+}
+#unhappy{
+  color: white;
+}
+.bio{
+  color: white;
+}
+.form-group {
+  color: white;
+}
 
 .field_with_errors {
   padding: 2px;
@@ -42,4 +74,6 @@
     font-size: 12px;
     list-style: square;
   }
+
+
 }
